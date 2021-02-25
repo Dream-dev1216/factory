@@ -1,0 +1,30 @@
+# This workflow will automatically deploy your application to www.evennode.com on push to master branch.
+
+name: factory
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install SSH key
+      uses: shimataro/ssh-key-action@v2
+      with:
+        key: ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAgQB14xhkGdjDQfvUBnz3idmzkcPTlzRYvOfPeJOqx8hNcvs6y35FK1A9suHjcYGcMaAR1eApeQ9kYwA0SCoH3STtYmaYA265I79xx3j9cOM62aF+fl0rod1dEzbzcLselOwI+7gdDmQvXLajtaNPDFrxbcOCcyN3M1khNyFsSBCGDAodDwBwbDiaVy5FIHuyn16i2ATtKO1L1owyBvD2k4YMEk2Yzf5ZX95ylrgly6ZwOFggtEyGMlDhupzatPDcbHMsbjYNSb6YGvw1s+JNSMh4yd943C1xyW8ZqMBLkJrcTVkcOqwQpfyowudAJ9vemPidEmKkxlVpS4kGJVOhrQ== rsa-key-20210223AR1eApeQ9kYwA0SCoH3STtYmaYA265I79xx3j9cOM62aF+fl0rod1dEzbzcLselOwI+7gdDmQvXLajtaNPDFrxbcOCcyN3M1khNyFsSBCGDAodDwBwbDiaVy5FIHuyn16i2ATtKO1L1owyBvD2k4YMEk2Yzf5ZX95ylrgly6ZwOFggtEyGMlDhupzatPDcbHMsbjYNSb6YGvw1s+JNSMh4yd943C1xyW8ZqMBLkJrcTVkcOqwQpfyowudAJ9vemPidEmKkxlVpS4kGJVOhrQ== rsa-key-20210223
+        known_hosts: " "
+    - name: Add git.evennode.com to known_hosts
+      run: |
+        ssh-keyscan -H git.evennode.com > ~/.ssh/known_hosts
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Deploy to evennode.com
+      run: |
+        git remote add evennode git@git.evennode.com:6c8505cc840e4e69ce05ce403aaa02b0.git
+        git config --global user.email "snowwite19930514@mail.ru"
+        git config --global user.name "snowwhite-boss"
+        git push evennode +master
