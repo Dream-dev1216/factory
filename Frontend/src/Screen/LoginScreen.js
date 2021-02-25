@@ -73,11 +73,13 @@ class TestLoginScreen extends React.Component {
                     />
                     <Block
                         style={styles.divide} />
+                        <Block center>
                     <Button
                         style={styles.button}
                         textStyle={{ fontFamily: nowTheme.FONT, fontSize: 31 }}
                         onPress={() => this.login()}
                     >Sign In</Button>
+                    </Block>
                     <TouchableOpacity
                         onPress={() => this.props.navigation.navigate('Register')}
                     >
@@ -141,7 +143,7 @@ const styles = StyleSheet.create({
     inputBox: {
         borderColor: theme.COLORS.BLACK,
         borderRadius: theme.SIZES.BORDER_RADIUS * 4,
-        width: theme.SIZES.BASE * 20,
+        // width: width * 0.6,
     },
     divide: {
         height: 1,
@@ -153,7 +155,7 @@ const styles = StyleSheet.create({
         backgroundColor: nowTheme.COLORS.MAIN,
         borderColor: theme.COLORS.BLACK,
         borderWidth: 1,
-        width: theme.SIZES.BASE * 20,
+        // width: width * 0.6,
         paddingVertical: theme.SIZES.BASE * 1.5
     },
     logoBlock: {

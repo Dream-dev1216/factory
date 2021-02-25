@@ -121,7 +121,6 @@ export function UpdateUser(dispatch, id, req, isOwn, successcb, errorcb) {
 }
 
 export function GetManagers(dispatch, successcb) {
-    console.log("i am here")
     Client.get(`users/managers`)
         .then(async res => {
             if (res.status == 200) {
