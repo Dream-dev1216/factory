@@ -180,7 +180,7 @@ class EditCustomerScreen extends React.Component {
                         <Block style={{ borderWidth: 1, borderRadius: nowTheme.SIZES.RADIUS }}>
                             <Image
                                 source={this.state.photo ? { uri: this.state.photo.uri } : (this.props.route.params.customer && this.props.route.params.customer.thumbnail ?
-                                    { uri: `${apiConfig.baseUrl}/image/${this.props.route.params.customer.thumbnail}` } :
+                                    { uri: `${apiConfig.baseUrl}image/${this.props.route.params.customer.thumbnail}` } :
                                     Images.Avatar)}
                                 style={styles.Avatar}
                             />

@@ -53,7 +53,7 @@ class InboxScreen extends React.Component {
                     <Block flex row center>
                         <Image
                             source={notification.thumbnail ?
-                                { uri: `${apiConfig.baseUrl}/image/${notification.thumbnail}` } :
+                                { uri: `${apiConfig.baseUrl}image/${notification.thumbnail}` } :
                                 Images.Avatar}
                             style={styles.avatar}
                         />

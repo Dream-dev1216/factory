@@ -181,7 +181,7 @@ class EditEmployeeScreen extends React.Component {
                         <Block style={{ borderWidth: 1, borderRadius: nowTheme.SIZES.RADIUS }}>
                             <Image
                                 source={this.state.photo ? { uri: this.state.photo.uri } : (this.props.route.params.employer && this.props.route.params.employer.thumbnail ?
-                                    { uri: `${apiConfig.baseUrl}/image/${this.props.route.params.employer.thumbnail}` } :
+                                    { uri: `${apiConfig.baseUrl}image/${this.props.route.params.employer.thumbnail}` } :
                                     Images.Avatar)}
                                 style={styles.Avatar}
                             />

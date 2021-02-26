@@ -22,6 +22,7 @@ class TestLoginScreen extends React.Component {
             name: '',
             password: '',
             loading: false,
+            errText: false,
         }
     }
 
@@ -29,13 +30,17 @@ class TestLoginScreen extends React.Component {
         this.setState({ loading: true })
         this.props.login(
             this.state.name,
-            this.state.password, (res) => {
+            this.state.password,
+            (res) => {
+                this.setState({ loading: false })
                 if (res.data) {
-                    this.setState({ loading: false })
                     console.log("Login Success =>", res.data)
                     this.props.navigation.replace(this.props.currentUser.role);
+                } else {
+                    this.setState({ errText: true })
                 }
             },
+            (error) => alert(error)
         );
     }
 
@@ -62,23 +67,25 @@ class TestLoginScreen extends React.Component {
                         size={20}> Name </Text>
                     <Input
                         style={styles.inputBox} color={nowTheme.COLORS.MAIN} fontSize={20}
-                        onChangeText={(name) => this.setState({ name: name })}
+                        onChangeText={(name) => this.setState({ name: name, errText: false })}
                     />
                     <Text
                         style={styles.label}
                         size={20}> Password </Text>
                     <Input
                         style={styles.inputBox} password color={nowTheme.COLORS.MAIN} fontSize={20}
-                        onChangeText={(pwd) => this.setState({ password: pwd })}
+                        onChangeText={(pwd) => this.setState({ password: pwd, errText: false })}
                     />
-                    <Block
-                        style={styles.divide} />
-                        <Block center>
-                    <Button
-                        style={styles.button}
-                        textStyle={{ fontFamily: nowTheme.FONT, fontSize: 31 }}
-                        onPress={() => this.login()}
-                    >Sign In</Button>
+                    {this.state.errText && <Block center>
+                        <Text p color='red'>Invalid username or password.</Text>
+                    </Block>}
+                    <Block style={styles.divide} />
+                    <Block center>
+                        <Button
+                            style={styles.button}
+                            textStyle={{ fontFamily: nowTheme.FONT, fontSize: 31 }}
+                            onPress={() => this.login()}
+                        >Sign In</Button>
                     </Block>
                     <TouchableOpacity
                         onPress={() => this.props.navigation.navigate('Register')}

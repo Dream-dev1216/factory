@@ -87,7 +87,7 @@ class HistoryScreen extends React.Component {
                             <Block row style={styles.row} flex>
                                 <Block center style={{ borderWidth: 1, borderRadius: nowTheme.SIZES.RADIUS }}>
                                     <Image
-                                        source={hist.thumbnail ? { uri: `${apiConfig.baseUrl}/image/${hist.thumbnail}` } : null}
+                                        source={hist.thumbnail ? { uri: `${apiConfig.baseUrl}image/${hist.thumbnail}` } : null}
                                         style={styles.Avatar}
                                     />
                                 </Block>

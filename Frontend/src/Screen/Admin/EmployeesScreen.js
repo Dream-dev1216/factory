@@ -57,7 +57,7 @@ class EmployeesScreen extends React.Component {
                     <Block center style={{ borderWidth: 1, borderRadius: nowTheme.SIZES.RADIUS }}>
                         <Image
                             source={employer.thumbnail ?
-                                { uri: `${apiConfig.baseUrl}/image/${employer.thumbnail}` } :
+                                { uri: `${apiConfig.baseUrl}image/${employer.thumbnail}` } :
                                 Images.Avatar}
                             style={styles.employer}
                         />

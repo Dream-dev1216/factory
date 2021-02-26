@@ -26,7 +26,7 @@ class Header extends React.Component {
                 >
                     <Image
                         source={this.props.currentUser.thumbnail ?
-                            {uri:`${apiConfig.baseUrl}/image/${this.props.currentUser.thumbnail}`} :
+                            {uri:`${apiConfig.baseUrl}image/${this.props.currentUser.thumbnail}`} :
                             Images.Avatar
                         }
                         style={styles.Avatar}

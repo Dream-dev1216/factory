@@ -39,7 +39,7 @@ export function Login(dispatch, name, password, successcb, errorcb) {
         })
         .catch(error => {
             console.log("login error => ", error);
-            if (errorcb) errorcb();
+            if (errorcb) errorcb(error);
         });
 }
 

@@ -69,7 +69,7 @@ class HoldScreen extends React.Component {
                     <Block row center>
                         <Block center flex>
                             <Image
-                                source={product.thumbnail ? { uri: `${apiConfig.baseUrl}/image/${product.thumbnail}` } : null}
+                                source={product.thumbnail ? { uri: `${apiConfig.baseUrl}image/${product.thumbnail}` } : null}
                                 style={styles.product}
                             />
                         </Block>
@@ -130,7 +130,7 @@ class HoldScreen extends React.Component {
                     <Block style={{ borderWidth: 1, borderRadius: nowTheme.SIZES.RADIUS }}>
                         <Image
                             source={this.props.currentUser.thumbnail ?
-                                { uri: `${apiConfig.baseUrl}/image/${this.props.currentUser.thumbnail}` } :
+                                { uri: `${apiConfig.baseUrl}image/${this.props.currentUser.thumbnail}` } :
                                 Images.Avatar}
                             style={styles.Avatar}
                         />

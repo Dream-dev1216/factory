@@ -55,7 +55,7 @@ class ManagersScreen extends React.Component {
                     <Block center style={{ borderWidth: 1, borderRadius: nowTheme.SIZES.RADIUS }}>
                         <Image
                             source={manager.thumbnail ?
-                                { uri: `${apiConfig.baseUrl}/image/${manager.thumbnail}` } :
+                                { uri: `${apiConfig.baseUrl}image/${manager.thumbnail}` } :
                                 Images.Avatar}
                             style={styles.manager}
                         />

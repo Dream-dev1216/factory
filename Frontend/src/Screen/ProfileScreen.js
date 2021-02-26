@@ -127,7 +127,7 @@ class ProfileScreen extends React.Component {
                         <Block style={{ borderWidth: 1, borderRadius: nowTheme.SIZES.RADIUS }}>
                             <Image
                                 source={this.state.photo ? {uri:this.state.photo.uri} : (this.props.currentUser.thumbnail ?
-                                    {uri:`${apiConfig.baseUrl}/image/${this.props.currentUser.thumbnail}`} :
+                                    {uri:`${apiConfig.baseUrl}image/${this.props.currentUser.thumbnail}`} :
                                     Images.Avatar)}
                                 style={styles.Avatar}
                             />

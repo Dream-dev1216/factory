@@ -56,7 +56,7 @@ class CustomersScreen extends React.Component {
                     <Block center style={{ borderWidth: 1, borderRadius: nowTheme.SIZES.RADIUS }}>
                         <Image
                             source={customer.thumbnail ?
-                                { uri: `${apiConfig.baseUrl}/image/${customer.thumbnail}` } :
+                                { uri: `${apiConfig.baseUrl}image/${customer.thumbnail}` } :
                                 Images.Avatar}
                             style={styles.customer}
                         />

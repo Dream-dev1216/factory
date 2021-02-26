@@ -178,7 +178,7 @@ class EditProductScreen extends React.Component {
                     <Block style={{ borderWidth: 1, borderRadius: nowTheme.SIZES.RADIUS }}>
                         <Image
                             source={this.props.currentUser.thumbnail ?
-                                { uri: `${apiConfig.baseUrl}/image/${this.props.currentUser.thumbnail}` } :
+                                { uri: `${apiConfig.baseUrl}image/${this.props.currentUser.thumbnail}` } :
                                 Images.Avatar}
                             style={styles.Avatar}
                         />
@@ -194,7 +194,7 @@ class EditProductScreen extends React.Component {
                         <Block style={{ borderWidth: 1, borderRadius: nowTheme.SIZES.RADIUS, padding: 2 }}>
                             <Image
                                 source={this.state.photo ? { uri: this.state.photo.uri } :
-                                    (this.state.thumbnail ? { uri: `${apiConfig.baseUrl}/image/${this.state.thumbnail}` } : null)
+                                    (this.state.thumbnail ? { uri: `${apiConfig.baseUrl}image/${this.state.thumbnail}` } : null)
                                 }
                                 style={styles.Avatar}
                             />
