@@ -13,8 +13,9 @@ const { width, height } = Dimensions.get('screen');
 // connect to Redux state
 import { connect } from "react-redux";
 import { UpdateUser } from "../../redux/actions";
-import { Images, nowTheme } from '../../constants';
-import {apiConfig} from '../../redux/config';
+import { Images, nowTheme, Roles } from '../../constants';
+import { apiConfig } from '../../redux/config';
+import Loader from '../Components/Loader';
 import Header from '../Components/Header'
 class ProfileScreen extends React.Component {
     constructor(props) {
@@ -28,24 +29,26 @@ class ProfileScreen extends React.Component {
             newPassword: '',
             newPasswordConfirm: '',
             email: this.props.currentUser.email,
+            tax: this.props.currentUser.tax,
             errName: false,
             errPassword: false,
             errNewPassword: false,
             errMatchPassword: false,
             showErr: false,
             photo: null,
+            loading: false,
         }
     }
     createFormData = (photo, body, timeVal) => {
         const data = new FormData();
 
-        if(photo)
-        data.append("photo", {
-            name: timeVal + '-' + photo.fileName,
-            type: photo.type,
-            uri:
-                Platform.OS === "android" ? photo.uri : photo.uri.replace("file://", "")
-        });
+        if (photo)
+            data.append("photo", {
+                name: timeVal + '-' + photo.fileName,
+                type: photo.type,
+                uri:
+                    Platform.OS === "android" ? photo.uri : photo.uri.replace("file://", "")
+            });
 
         Object.keys(body).forEach(key => {
             data.append(key, body[key]);
@@ -72,7 +75,7 @@ class ProfileScreen extends React.Component {
             this.setState({ errPassword: true });
             return false;
         }
-        if (this.state.oldPassword == '' && (this.state.newPassword != '' || this.state.newPasswordConfirm != '')){
+        if (this.state.oldPassword == '' && (this.state.newPassword != '' || this.state.newPasswordConfirm != '')) {
             this.setState({ errPassword: true });
             return false;
         }
@@ -90,11 +93,14 @@ class ProfileScreen extends React.Component {
     }
 
     save = () => {
-        if (!this.validate()){
-            this.setState({ showErr: true })
+        this.setState({ loading: true });
+
+        if (!this.validate()) {
+            this.setState({ showErr: true, loading: false })
             setTimeout(() => {
                 this.setState({ showErr: false })
             }, 2000);
+            return;
         };
         var timeVal = Date.now();
         this.props.updateUser(
@@ -106,11 +112,13 @@ class ProfileScreen extends React.Component {
                 address: this.state.address,
                 newPassword: this.state.oldPassword ? this.state.newPassword : this.props.currentUser.password,
                 email: this.state.email,
+                tax: this.state.tax,
                 thumbnail: this.state.photo ? timeVal + '-' + this.state.photo.fileName : '',
-                role:this.props.currentUser.role
+                role: this.props.currentUser.role
             }, timeVal), true, () => {
                 // if (successcb) successcb();
-                console.log("update user success")
+                console.log("update user success");
+                this.setState({ loading: false });
                 this.props.navigation.goBack();
             });
     }
@@ -118,6 +126,7 @@ class ProfileScreen extends React.Component {
     render() {
         return (
             <Block>
+                <Loader loading={this.state.loading} />
                 <Header nologo title="Profile" navigation={this.props.navigation} />
                 <Block center>
                     <Block style={styles.background} />
@@ -126,13 +135,13 @@ class ProfileScreen extends React.Component {
                     >
                         <Block style={{ borderWidth: 1, borderRadius: nowTheme.SIZES.RADIUS }}>
                             <Image
-                                source={this.state.photo ? {uri:this.state.photo.uri} : (this.props.currentUser.thumbnail ?
-                                    {uri:`${apiConfig.baseUrl}image/${this.props.currentUser.thumbnail}`} :
+                                source={this.state.photo ? { uri: this.state.photo.uri } : (this.props.currentUser.thumbnail ?
+                                    { uri: `${apiConfig.baseUrl}image/${this.props.currentUser.thumbnail}` } :
                                     Images.Avatar)}
                                 style={styles.Avatar}
                             />
                         </Block>
-                        
+
                     </TouchableOpacity>
                     <Block center style={styles.containter}>
                         <Text h3 style={styles.title}>
@@ -202,6 +211,11 @@ class ProfileScreen extends React.Component {
                             labelStyles={styles.inputLabel} fontSize={20} value={this.state.email}
                             onChangeText={(value) => this.setState({ email: value })}
                         />
+                        {this.props.currentUser.role == Roles.ADMIN && <Input
+                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Tax"
+                            labelStyles={styles.inputLabel} fontSize={20} value={this.state.tax.toString()}
+                            onChangeText={(value) => this.setState({ tax: value })}
+                        />}
 
                         <Block center>
                             <Button

@@ -29,6 +29,8 @@ export function Login(dispatch, name, password, successcb, errorcb) {
                     }, {
                         email: res.data.email
                     }, {
+                        tax: res.data.tax
+                    }, {
                         thumbnail: res.data.thumbnail
                     }, {
                         role: res.data.role
@@ -69,6 +71,8 @@ export function Register(dispatch, req, isSignUp, successcb, errorcb) {
                     }, {
                         email: res.data.email
                     }, {
+                        tax: res.data.tax
+                    }, {
                         thumbnail: res.data.thumbnail
                     }, {
                         role: res.data.role
@@ -105,6 +109,8 @@ export function UpdateUser(dispatch, id, req, isOwn, successcb, errorcb) {
                         password: res.data.password
                     }, {
                         email: res.data.email
+                    }, {
+                        tax: res.data.tax
                     }, {
                         thumbnail: res.data.thumbnail
                     }, {

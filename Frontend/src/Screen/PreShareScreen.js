@@ -138,15 +138,23 @@ class PreShareScreen extends React.Component {
                     </Block>
                     <Block row style={styles.tableRow}>
                         <Text bold>Totally</Text>
+                        <Text style={{marginLeft:theme.SIZES.BASE}}>{product.total}</Text>
                     </Block>
                     <Block row style={styles.tableRow}>
                         <Text bold>Discount</Text>
+                        <Text style={{marginLeft:theme.SIZES.BASE}}>0</Text>
                     </Block>
                     <Block row style={styles.tableRow}>
                         <Text bold>Tax</Text>
+                        <Text style={{marginLeft:theme.SIZES.BASE}}>{this.props.currentUser.tax ?? 0} %</Text>
                     </Block>
                     <Block row style={styles.tableRow}>
                         <Text bold>Totally with Tax</Text>
+                        <Text style={{marginLeft:theme.SIZES.BASE}}>{
+                            this.props.currentUser.tax ? 
+                            product.total + this.props.currentUser.tax :
+                            product.total
+                        }</Text>
                     </Block>
                     <Block row style={{ paddingTop: theme.SIZES.BASE }}>
                         <Text style={{ flex: 1, paddingLeft: theme.SIZES.BASE }} >Note</Text>
