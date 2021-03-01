@@ -31,6 +31,10 @@ var UserSchema = mongoose.Schema({
         required: false,
         unique: false,
     },
+    tax: {
+        type: Number,
+        default:0
+    },
     role: {
         type: String,
         default:"Employee"
