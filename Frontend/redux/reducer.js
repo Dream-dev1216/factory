@@ -14,6 +14,7 @@ const initialState = {
   history: [],
   statements: {},
   client: null,
+  totalNotify: 0,
 
   friends: [],
   contactFriends: [],
@@ -53,6 +54,10 @@ function userReducer(state = initialState, action) {
     case "SET_NOTIFICATIONS":
       return {
         ...state, notifications: action.payload
+      };
+    case "SET_TOTAL_NOTIFY":
+      return {
+        ...state, totalNotify: action.payload
       };
     case "SET_MESSAGES":
       return {

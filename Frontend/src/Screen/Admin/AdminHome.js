@@ -11,7 +11,7 @@ const { width, height } = Dimensions.get('screen');
 // connect to Redux state
 import { connect } from "react-redux";
 import { nowTheme } from '../../../constants';
-import { GetStatements, SetClient, AddMessage } from "../../../redux/actions";
+import { GetStatements, SetClient, AddMessage, SetTotalNotify } from "../../../redux/actions";
 import { apiConfig } from '../../../redux/config'
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import Loader from '../../Components/Loader';
@@ -51,6 +51,7 @@ class AdminHome extends React.Component {
         let messageObject = JSON.parse(message);
         switch (messageObject.type) {
             case "message":
+                this.props.setTotalNotify( this.props.totalNotify++ );
                 this.props.addMessage(messageObject.data, messageObject.receiver, this.props.route.name == 'Chat');
                 break;
             default: break;
@@ -132,6 +133,7 @@ function mapStateToProps(state) {
     return {
         currentUser: state.currentUser,
         statements: state.statements,
+        totalNotify: state.totalNotify,
     };
 }
 function mapDispatchToProps(dispatch) {
@@ -139,6 +141,7 @@ function mapDispatchToProps(dispatch) {
         getStatements: (successcb) => GetStatements(dispatch, successcb),
         setClient: (client) => SetClient(dispatch, client),
         addMessage: (data, receiver, isChatting) => AddMessage(dispatch, data, receiver, isChatting),
+        setTotalNotify: (totalNotify) => SetTotalNotify(dispatch, totalNotify),
     };
 }
 export default connect(

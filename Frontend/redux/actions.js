@@ -286,12 +286,27 @@ export function GetNotifications(dispatch, userId, successcb) {
                     type: "SET_NOTIFICATIONS",
                     payload: res.data
                 });
+                var totalNotify = 0;
+                res.data.map(data => {
+                    totalNotify += data.count;
+                })
+                dispatch({
+                    type: "SET_TOTAL_NOTIFY",
+                    payload: totalNotify
+                });
                 if (successcb) successcb();
             }
         })
         .catch(error => {
             console.log("get notifications error => ", error);
         });
+}
+
+export function SetTotalNotify(dispatch, totalNotify) {
+    dispatch({
+        type: "SET_TOTAL_NOTIFY",
+        payload: totalNotify
+    });
 }
 
 export function ClearNotification(dispatch, receiver, sender, successcb) {

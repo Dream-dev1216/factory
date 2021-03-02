@@ -11,7 +11,7 @@ const { width, height } = Dimensions.get('screen');
 // connect to Redux state
 import { connect } from "react-redux";
 import { Roles, nowTheme } from '../../constants';
-import { Login } from "../../redux/actions";
+import { Login, GetNotifications } from "../../redux/actions";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import Loader from '../Components/Loader';
 
@@ -32,10 +32,15 @@ class TestLoginScreen extends React.Component {
             this.state.name,
             this.state.password,
             (res) => {
-                this.setState({ loading: false })
                 if (res.data) {
-                    console.log("Login Success =>", res.data)
-                    this.props.navigation.replace(this.props.currentUser.role);
+                    this.props.getNotifications(
+                        this.props.currentUser.id,
+                        () => {
+                            this.setState({ loading: false })
+                            console.log("Login Success =>", res.data)
+                            this.props.navigation.replace(this.props.currentUser.role);
+                        }
+                    );
                 } else {
                     this.setState({ errText: true })
                 }
@@ -109,6 +114,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         login: (name, password, successcb, errorcb) => Login(dispatch, name, password, successcb, errorcb),
+        getNotifications: (userId, successcb) => GetNotifications(dispatch, userId, successcb),
     };
 }
 export default connect(

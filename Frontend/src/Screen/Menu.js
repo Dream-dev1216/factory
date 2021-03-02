@@ -201,6 +201,7 @@ class CustomDrawerContent extends React.Component {
               <Block flex={8} center>
                 <Text h4 style={{ alignItems: 'center' }}>Inbox</Text>
               </Block>
+              {this.props.totalNotify > 0 && <Text style={styles.notify}>{this.props.totalNotify.toString()}</Text>}
               <Block flex={1} style={{ alignItems: 'flex-end' }}>
                 <Block style={styles.iconRound}>
                   <Image
@@ -286,11 +287,25 @@ const styles = StyleSheet.create({
   row: {
     paddingTop: theme.SIZES.BASE,
   },
+  notify:{
+    width:theme.SIZES.BASE * 2,
+    height:theme.SIZES.BASE * 2,
+    backgroundColor:'red',
+    color:'white',
+    fontSize:18,
+    textAlign:'center',
+    borderRadius:theme.SIZES.BASE,
+    padding:3,
+    left:-12,
+    top:-12,
+    zIndex:2,
+  }
 });
 
 function mapStateToProps(state) {
   return {
     currentUser: state.currentUser,
+    totalNotify: state.totalNotify,
   };
 }
 function mapDispatchToProps(dispatch) {
