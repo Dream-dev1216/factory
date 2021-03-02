@@ -1,5 +1,8 @@
 import React from 'react';
-import { StyleSheet, Image, TouchableOpacity, Dimensions, ScrollView, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import {
+    StyleSheet, Image, TouchableOpacity, Dimensions, ScrollView, SafeAreaView, KeyboardAvoidingView,
+    Platform, TouchableWithoutFeedback, Keyboard
+} from 'react-native';
 import {
     Block,
     Button,
@@ -170,135 +173,144 @@ class EditProductScreen extends React.Component {
             value: 'Create',
         }];
         return (
-            <KeyboardAvoidingView>
-                <Loader loading={this.state.loading} />
-                <Header nologo title={this.state.id ? "Edit Product" : "Add New Product"} navigation={this.props.navigation} />
-                <Block center>
-                    <Block style={styles.background} />
-                    <Block style={{ borderWidth: 1, borderRadius: nowTheme.SIZES.RADIUS }}>
-                        <Image
-                            source={this.props.currentUser.thumbnail ?
-                                { uri: `${apiConfig.baseUrl}image/${this.props.currentUser.thumbnail}` } :
-                                Images.Avatar}
-                            style={styles.Avatar}
-                        />
-                    </Block>
-                    <Block center style={styles.containter}>
-                        <Text h3 style={styles.title}>
-                            {this.props.currentUser.name}
-                        </Text>
-                    </Block>
-                    <TouchableOpacity
-                        onPress={() => readonly ? null : this.handleChoosePhoto()}
-                    >
-                        <Block style={{ borderWidth: 1, borderRadius: nowTheme.SIZES.RADIUS, padding: 2 }}>
-                            <Image
-                                source={this.state.photo ? { uri: this.state.photo.uri } :
-                                    (this.state.thumbnail ? { uri: `${apiConfig.baseUrl}image/${this.state.thumbnail}` } : null)
-                                }
-                                style={styles.Avatar}
-                            />
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : null}
+                style={{ flex: 1 }}
+            >
+                <SafeAreaView style={{ flex: 1 }}>
+                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                        <Block style={styles.inner}>
+                            <Loader loading={this.state.loading} />
+                            <Header nologo title={this.state.id ? "Edit Product" : "Add New Product"} navigation={this.props.navigation} />
+                            <Block center>
+                                <Block style={styles.background} />
+                                <Block style={{ borderWidth: 1, borderRadius: nowTheme.SIZES.RADIUS }}>
+                                    <Image
+                                        source={this.props.currentUser.thumbnail ?
+                                            { uri: `${apiConfig.baseUrl}image/${this.props.currentUser.thumbnail}` } :
+                                            Images.Avatar}
+                                        style={styles.Avatar}
+                                    />
+                                </Block>
+                                <Block center style={styles.containter}>
+                                    <Text h3 style={styles.title}>
+                                        {this.props.currentUser.name}
+                                    </Text>
+                                </Block>
+                                <TouchableOpacity
+                                    onPress={() => readonly ? null : this.handleChoosePhoto()}
+                                >
+                                    <Block style={{ borderWidth: 1, borderRadius: nowTheme.SIZES.RADIUS, padding: 2 }}>
+                                        <Image
+                                            source={this.state.photo ? { uri: this.state.photo.uri } :
+                                                (this.state.thumbnail ? { uri: `${apiConfig.baseUrl}image/${this.state.thumbnail}` } : null)
+                                            }
+                                            style={styles.Avatar}
+                                        />
+                                    </Block>
+                                </TouchableOpacity>
+                            </Block>
+                            <KeyboardAvoidingView>
+                                <ScrollView
+                                    style={styles.scrollContainer}
+                                    showsVerticalScrollIndicator={false}
+                                >
+                                    <Block row center>
+                                        <Text size={15} color='grey'>Bill No.</Text>
+                                        <Text size={20} color='red'>{this.state.bill}</Text>
+                                    </Block>
+                                    <Input
+                                        style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Name"
+                                        labelStyles={styles.inputLabel} fontSize={20} value={this.state.name}
+                                        onChangeText={(value) => this.setState({ name: value })}
+                                        editable={!readonly}
+                                    />
+                                    <Input
+                                        style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Description"
+                                        labelStyles={styles.inputLabel} fontSize={20} value={this.state.description}
+                                        onChangeText={(value) => this.setState({ description: value })}
+                                        editable={!readonly}
+                                    />
+                                    <Dropdown
+                                        label='Customer Name'
+                                        textColor={nowTheme.COLORS.MAIN}
+                                        labelFontSize={16}
+                                        fontSize={20}
+                                        data={this.state.customers}
+                                        value={this.state.customer}
+                                        onChangeText={(value) => this.setState({ customer: value })}
+                                        disabled={readonly}
+                                    />
+                                    <Dropdown
+                                        label='Request Type'
+                                        textColor={nowTheme.COLORS.MAIN}
+                                        labelFontSize={16}
+                                        fontSize={20}
+                                        data={data}
+                                        value={this.state.requestType}
+                                        onChangeText={(value) => this.setState({ requestType: value })}
+                                        disabled={readonly}
+                                    />
+                                    <Input
+                                        style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Gold Weight" type="decimal-pad"
+                                        labelStyles={styles.inputLabel} fontSize={20} value={this.state.gold.toString()}
+                                        onChangeText={(value) => {
+                                            this.setState({ total: parseFloat(this.state.diamond) + parseFloat(this.state.stone) + parseFloat(value) })
+                                            this.setState({ gold: value })
+                                        }}
+                                        editable={!readonly}
+                                    />
+                                    <Input
+                                        style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Diamond Weight" type="decimal-pad"
+                                        labelStyles={styles.inputLabel} fontSize={20} value={this.state.diamond.toString()}
+                                        onChangeText={(value) => {
+                                            this.setState({ total: parseFloat(this.state.stone) + parseFloat(this.state.gold) + parseFloat(value) })
+                                            this.setState({ diamond: value })
+                                        }}
+                                        editable={!readonly}
+                                    />
+                                    <Input
+                                        style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Stone Weight" type="decimal-pad"
+                                        labelStyles={styles.inputLabel} fontSize={20} value={this.state.stone.toString()}
+                                        onChangeText={(value) => {
+                                            this.setState({ total: parseFloat(this.state.diamond) + parseFloat(this.state.gold) + parseFloat(value) })
+                                            this.setState({ stone: value })
+                                        }}
+                                        editable={!readonly}
+                                    />
+                                    <Input
+                                        style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Total Weight" type="decimal-pad"
+                                        labelStyles={styles.inputLabel} fontSize={20} value={this.state.total.toString()}
+                                        editable={false}
+                                    />
+                                    <Text style={{ paddingLeft: theme.SIZES.BASE }} size={20}>Note</Text>
+                                    <Textarea
+                                        style={styles.textarea}
+                                        onChangeText={(value) => this.setState({ note: value })}
+                                        defaultValue={this.state.note}
+                                        maxLength={120}
+                                        placeholder={'Enter Notes...'}
+                                        placeholderTextColor={theme.COLORS.PLACEHOLDER}
+                                        underlineColorAndroid={'transparent'}
+                                        value={this.state.note}
+                                        editable={!readonly}
+                                    />
+                                    <Block center>
+                                        {!readonly && <Button
+                                            onPress={() => this.submit()}
+                                            style={styles.button} round
+                                            textStyle={{ fontFamily: nowTheme.FONT, fontSize: 31 }}
+                                        >{this.state.id ? 'SAVE' : 'ADD'}</Button>}
+                                        {readonly && <Button
+                                            onPress={() => this.props.navigation.goBack()}
+                                            style={styles.button} round
+                                            textStyle={{ fontFamily: nowTheme.FONT, fontSize: 31 }}
+                                        >BACK</Button>}
+                                    </Block>
+                                </ScrollView>
+                            </KeyboardAvoidingView>
                         </Block>
-                    </TouchableOpacity>
-                </Block>
-                <SafeAreaView>
-                    <ScrollView
-                        style={styles.scrollContainer}
-                        showsVerticalScrollIndicator={false}
-                    >
-                        <Block row center>
-                            <Text size={15} color='grey'>Bill No.</Text>
-                            <Text size={20} color='red'>{this.state.bill}</Text>
-                        </Block>
-                        <Input
-                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Name"
-                            labelStyles={styles.inputLabel} fontSize={20} value={this.state.name}
-                            onChangeText={(value) => this.setState({ name: value })}
-                            editable={!readonly}
-                        />
-                        <Input
-                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Description"
-                            labelStyles={styles.inputLabel} fontSize={20} value={this.state.description}
-                            onChangeText={(value) => this.setState({ description: value })}
-                            editable={!readonly}
-                        />
-                        <Dropdown
-                            label='Customer Name'
-                            textColor={nowTheme.COLORS.MAIN}
-                            labelFontSize={16}
-                            fontSize={20}
-                            data={this.state.customers}
-                            value={this.state.customer}
-                            onChangeText={(value) => this.setState({ customer: value })}
-                            disabled={readonly}
-                        />
-                        <Dropdown
-                            label='Request Type'
-                            textColor={nowTheme.COLORS.MAIN}
-                            labelFontSize={16}
-                            fontSize={20}
-                            data={data}
-                            value={this.state.requestType}
-                            onChangeText={(value) => this.setState({ requestType: value })}
-                            disabled={readonly}
-                        />
-                        <Input
-                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Gold Weight" type="decimal-pad"
-                            labelStyles={styles.inputLabel} fontSize={20} value={this.state.gold.toString()}
-                            onChangeText={(value) => {
-                                this.setState({ total: parseFloat(this.state.diamond) + parseFloat(this.state.stone) + parseFloat(value) })
-                                this.setState({ gold: value })
-                            }}
-                            editable={!readonly}
-                        />
-                        <Input
-                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Diamond Weight" type="decimal-pad"
-                            labelStyles={styles.inputLabel} fontSize={20} value={this.state.diamond.toString()}
-                            onChangeText={(value) => {
-                                this.setState({ total: parseFloat(this.state.stone) + parseFloat(this.state.gold) + parseFloat(value) })
-                                this.setState({ diamond: value })
-                            }}
-                            editable={!readonly}
-                        />
-                        <Input
-                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Stone Weight" type="decimal-pad"
-                            labelStyles={styles.inputLabel} fontSize={20} value={this.state.stone.toString()}
-                            onChangeText={(value) => {
-                                this.setState({ total: parseFloat(this.state.diamond) + parseFloat(this.state.gold) + parseFloat(value) })
-                                this.setState({ stone: value })
-                            }}
-                            editable={!readonly}
-                        />
-                        <Input
-                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Total Weight" type="decimal-pad"
-                            labelStyles={styles.inputLabel} fontSize={20} value={this.state.total.toString()}
-                            editable={false}
-                        />
-                        <Text style={{ paddingLeft: theme.SIZES.BASE }} size={20}>Note</Text>
-                        <Textarea
-                            style={styles.textarea}
-                            onChangeText={(value) => this.setState({ note: value })}
-                            defaultValue={this.state.note}
-                            maxLength={120}
-                            placeholder={'Enter Notes...'}
-                            placeholderTextColor={theme.COLORS.PLACEHOLDER}
-                            underlineColorAndroid={'transparent'}
-                            value={this.state.note}
-                            editable={!readonly}
-                        />
-                        <Block center>
-                            {!readonly && <Button
-                                onPress={() => this.submit()}
-                                style={styles.button} round
-                                textStyle={{ fontFamily: nowTheme.FONT, fontSize: 31 }}
-                            >{this.state.id ? 'SAVE' : 'ADD'}</Button>}
-                            {readonly && <Button
-                                onPress={() => this.props.navigation.goBack()}
-                                style={styles.button} round
-                                textStyle={{ fontFamily: nowTheme.FONT, fontSize: 31 }}
-                            >BACK</Button>}
-                        </Block>
-                    </ScrollView>
+                    </TouchableWithoutFeedback>
                 </SafeAreaView>
             </KeyboardAvoidingView>
         );
@@ -366,7 +378,7 @@ const styles = StyleSheet.create({
         borderRadius: nowTheme.SIZES.RADIUS,
     },
     scrollContainer: {
-        height: height * 0.4,
+        height: height * 0.35,
         paddingHorizontal: theme.SIZES.BASE * 3,
         marginTop: theme.SIZES.BASE
     },
@@ -393,5 +405,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'grey',
         borderRadius: 20
+    },
+    inner: {
+        flex: 1,
+        justifyContent: "flex-end",
     },
 });

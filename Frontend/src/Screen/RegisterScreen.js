@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Image, TouchableOpacity, Dimensions, ScrollView, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity, Dimensions, ScrollView, SafeAreaView, KeyboardAvoidingView,
+    Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import {
     Block,
     Button,
@@ -98,78 +99,85 @@ class RegisterScreen extends React.Component {
     }
     render() {
         return (
-            <KeyboardAvoidingView>
-                <Header nologo noDrawer title="Register" />
-                <Block center style={styles.background}>
-                    <TouchableOpacity
-                        onPress={() => this.handleChoosePhoto()}
-                    >
-                        <Block style={{ borderWidth: 1, borderRadius: nowTheme.SIZES.RADIUS }}>
-                            <Image
-                                source={this.state.photo ? {uri:this.state.photo.uri} : Images.Avatar}
-                                style={styles.Avatar}
-                            />
-                        </Block>
-                    </TouchableOpacity>
-                </Block>
-                <SafeAreaView>
-                    <ScrollView
-                        style={styles.scrollContainer}
-                        showsVerticalScrollIndicator={false}
-                    >
-                        <Input
-                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Name *"
-                            labelStyles={styles.inputLabel} fontSize={20}
-                            onChangeText={(value) => {
-                                this.setState({ name: value })
-                                this.setState({ errName: false })
-                            }}
-                        />
-                        {this.state.errName && <Text p color='red'>User name is required.</Text>}
-                        <Input
-                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Birth"
-                            labelStyles={styles.inputLabel} fontSize={20}
-                            onChangeText={(value) => this.setState({ birth: value })}
-                        />
-                        <Input
-                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Phone No"
-                            labelStyles={styles.inputLabel} fontSize={20}
-                            onChangeText={(value) => this.setState({ phone: value })}
-                        />
-                        <Input
-                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Address"
-                            labelStyles={styles.inputLabel} fontSize={20}
-                            onChangeText={(value) => this.setState({ address: value })}
-                        />
-                        <Input
-                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="New Password" password
-                            labelStyles={styles.inputLabel} fontSize={20}
-                            onChangeText={(value) => {
-                                this.setState({ newPassword: value })
-                                this.setState({ errEmptyPassword: false })
-                            }}
-                        />
-                        {this.state.errMatchPassword && <Text p color='red'>Password is not matched.</Text>}
-                        {this.state.errEmptyPassword && <Text p color='red'>Password is required.</Text>}
-                        <Input
-                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Confirm New Password" password
-                            labelStyles={styles.inputLabel} fontSize={20}
-                            onChangeText={(value) => this.setState({ newPasswordConfirm: value })}
-                        />
-                        <Input
-                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Email"
-                            labelStyles={styles.inputLabel} fontSize={20}
-                            onChangeText={(value) => this.setState({ email: value })}
-                        />
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : null}
+                style={{ flex: 1 }}
+            >
+                <SafeAreaView style={{flex:1}}>
+                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                        <Block style={styles.inner}>
+                            <Header nologo noDrawer title="Register" />
+                            <Block center style={styles.background}>
+                                <TouchableOpacity
+                                    onPress={() => this.handleChoosePhoto()}
+                                >
+                                    <Block style={{ borderWidth: 1, borderRadius: nowTheme.SIZES.RADIUS }}>
+                                        <Image
+                                            source={this.state.photo ? {uri:this.state.photo.uri} : Images.Avatar}
+                                            style={styles.Avatar}
+                                        />
+                                    </Block>
+                                </TouchableOpacity>
+                            </Block>
+                            <ScrollView
+                            style={styles.scrollContainer}
+                            showsVerticalScrollIndicator={false}
+                            >
+                                <Input
+                                    style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Name *"
+                                    labelStyles={styles.inputLabel} fontSize={20}
+                                    onChangeText={(value) => {
+                                        this.setState({ name: value })
+                                        this.setState({ errName: false })
+                                    }}
+                                />
+                                {this.state.errName && <Text p color='red'>User name is required.</Text>}
+                                <Input
+                                    style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Birth"
+                                    labelStyles={styles.inputLabel} fontSize={20}
+                                    onChangeText={(value) => this.setState({ birth: value })}
+                                />
+                                <Input
+                                    style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Phone No"
+                                    labelStyles={styles.inputLabel} fontSize={20}
+                                    onChangeText={(value) => this.setState({ phone: value })}
+                                />
+                                <Input
+                                    style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Address"
+                                    labelStyles={styles.inputLabel} fontSize={20}
+                                    onChangeText={(value) => this.setState({ address: value })}
+                                />
+                                <Input
+                                    style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="New Password" password
+                                    labelStyles={styles.inputLabel} fontSize={20}
+                                    onChangeText={(value) => {
+                                        this.setState({ newPassword: value })
+                                        this.setState({ errEmptyPassword: false })
+                                    }}
+                                />
+                                {this.state.errMatchPassword && <Text p color='red'>Password is not matched.</Text>}
+                                {this.state.errEmptyPassword && <Text p color='red'>Password is required.</Text>}
+                                <Input
+                                    style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Confirm New Password" password
+                                    labelStyles={styles.inputLabel} fontSize={20}
+                                    onChangeText={(value) => this.setState({ newPasswordConfirm: value })}
+                                />
+                                <Input
+                                    style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Email"
+                                    labelStyles={styles.inputLabel} fontSize={20}
+                                    onChangeText={(value) => this.setState({ email: value })}
+                                />
 
-                        <Block center>
-                            <Button
-                                onPress={() => this.register()}
-                                style={styles.button} round
-                                textStyle={{ fontFamily: nowTheme.FONT, fontSize: 31 }}
-                            >Register</Button>
+                                <Block center>
+                                    <Button
+                                        onPress={() => this.register()}
+                                        style={styles.button} round
+                                        textStyle={{ fontFamily: nowTheme.FONT, fontSize: 31 }}
+                                    >Register</Button>
+                                </Block>
+                            </ScrollView>
                         </Block>
-                    </ScrollView>
+                    </TouchableWithoutFeedback>
                 </SafeAreaView>
             </KeyboardAvoidingView>
         );
@@ -247,5 +255,9 @@ const styles = StyleSheet.create({
     },
     inputBox: {
         borderRadius: theme.SIZES.BORDER_RADIUS * 4,
+    },
+    inner: {
+        flex: 1,
+        justifyContent: "flex-end",
     },
 });

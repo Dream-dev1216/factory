@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Image, TouchableOpacity, Dimensions, ScrollView, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity, Dimensions, ScrollView, SafeAreaView, KeyboardAvoidingView,
+	Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import {
     Block,
     Button,
@@ -125,115 +126,126 @@ class ProfileScreen extends React.Component {
 
     render() {
         return (
-            <KeyboardAvoidingView>
-                <Loader loading={this.state.loading} />
-                <Header nologo title="Profile" navigation={this.props.navigation} />
-                <Block center>
-                    <Block style={styles.background} />
-                    <TouchableOpacity
-                        onPress={() => this.handleChoosePhoto()}
-                    >
-                        <Block style={{ borderWidth: 1, borderRadius: nowTheme.SIZES.RADIUS }}>
-                            <Image
-                                source={this.state.photo ? { uri: this.state.photo.uri } : (this.props.currentUser.thumbnail ?
-                                    { uri: `${apiConfig.baseUrl}image/${this.props.currentUser.thumbnail}` } :
-                                    Images.Avatar)}
-                                style={styles.Avatar}
-                            />
-                        </Block>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : null}
+                style={{ flex: 1 }}
+            >
+                <SafeAreaView style={{flex:1}}>
+                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                        <Block style={styles.inner}>
+			                <Loader loading={this.state.loading} />
+			                <Header nologo title="Profile" navigation={this.props.navigation} />
+			                <Block center>
+			                    <Block style={styles.background} />
+			                    <TouchableOpacity
+			                        onPress={() => this.handleChoosePhoto()}
+			                    >
+			                        <Block style={{ borderWidth: 1, borderRadius: nowTheme.SIZES.RADIUS }}>
+			                            <Image
+			                                source={this.state.photo ? { uri: this.state.photo.uri } : (this.props.currentUser.thumbnail ?
+			                                    { uri: `${apiConfig.baseUrl}image/${this.props.currentUser.thumbnail}` } :
+			                                    Images.Avatar)}
+			                                style={styles.Avatar}
+			                            />
+			                        </Block>
 
-                    </TouchableOpacity>
-                    <Block center style={styles.containter}>
-                        <Text h3 style={styles.title}>
-                            {this.props.currentUser.name}
-                        </Text>
-                    </Block>
-                </Block>
-                <SafeAreaView>
-                    <ScrollView
-                        style={styles.scrollContainer}
-                        showsVerticalScrollIndicator={false}
-                    >
-                        <Input
-                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Name *"
-                            labelStyles={styles.inputLabel} fontSize={20} value={this.state.name}
-                            onChangeText={(value) => {
-                                this.setState({ name: value })
-                                this.setState({ errName: false })
-                            }}
-                        />
-                        {this.state.errName && <Text p color='red'>name is required</Text>}
-                        <Input
-                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Birth"
-                            labelStyles={styles.inputLabel} fontSize={20} value={this.state.birth}
-                            onChangeText={(value) => this.setState({ birth: value })}
-                        />
-                        <Input
-                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Phone No"
-                            labelStyles={styles.inputLabel} fontSize={20} value={this.state.phone}
-                            onChangeText={(value) => this.setState({ phone: value })}
-                        />
-                        <Input
-                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Address"
-                            labelStyles={styles.inputLabel} fontSize={20} value={this.state.address}
-                            onChangeText={(value) => this.setState({ address: value })}
-                        />
-                        <Input
-                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Old Password" password
-                            labelStyles={styles.inputLabel} fontSize={20}
-                            onChangeText={(value) => {
-                                this.setState({ oldPassword: value })
-                                this.setState({ errPassword: false })
-                            }}
-                        />
-                        {this.state.errPassword && <Text p color='red'>password is not correct</Text>}
-                        <Input
-                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="New Password" password
-                            labelStyles={styles.inputLabel} fontSize={20}
-                            onChangeText={(value) => {
-                                this.setState({ newPassword: value })
-                                this.setState({ errNewPassword: false })
-                                this.setState({ errMatchPassword: false })
-                            }}
-                        />
-                        {this.state.errNewPassword && <Text p color='red'>password is required</Text>}
-                        {this.state.errMatchPassword && <Text p color='red'>password is not matched</Text>}
-                        <Input
-                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Confirm New Password" password
-                            labelStyles={styles.inputLabel} fontSize={20}
-                            onChangeText={(value) => {
-                                this.setState({ newPasswordConfirm: value })
-                                this.setState({ errMatchPassword: false })
-                            }}
-                        />
-                        <Input
-                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Email"
-                            labelStyles={styles.inputLabel} fontSize={20} value={this.state.email}
-                            onChangeText={(value) => this.setState({ email: value })}
-                        />
-                        {this.props.currentUser.role == Roles.ADMIN && <Input
-                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Tax"
-                            labelStyles={styles.inputLabel} fontSize={20} value={this.state.tax.toString()}
-                            onChangeText={(value) => this.setState({ tax: value })}
-                        />}
+			                    </TouchableOpacity>
+			                    <Block center style={styles.containter}>
+			                        <Text h3 style={styles.title}>
+			                            {this.props.currentUser.name}
+			                        </Text>
+			                    </Block>
+			                </Block>
+			                <SafeAreaView>
+			                    <KeyboardAvoidingView>
+			                    <ScrollView
+			                        style={styles.scrollContainer}
+			                        showsVerticalScrollIndicator={false}
+			                    >
+			                        <Input
+			                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Name *"
+			                            labelStyles={styles.inputLabel} fontSize={20} value={this.state.name}
+			                            onChangeText={(value) => {
+			                                this.setState({ name: value })
+			                                this.setState({ errName: false })
+			                            }}
+			                        />
+			                        {this.state.errName && <Text p color='red'>name is required</Text>}
+			                        <Input
+			                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Birth"
+			                            labelStyles={styles.inputLabel} fontSize={20} value={this.state.birth}
+			                            onChangeText={(value) => this.setState({ birth: value })}
+			                        />
+			                        <Input
+			                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Phone No"
+			                            labelStyles={styles.inputLabel} fontSize={20} value={this.state.phone}
+			                            onChangeText={(value) => this.setState({ phone: value })}
+			                        />
+			                        <Input
+			                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Address"
+			                            labelStyles={styles.inputLabel} fontSize={20} value={this.state.address}
+			                            onChangeText={(value) => this.setState({ address: value })}
+			                        />
+			                        <Input
+			                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Old Password" password
+			                            labelStyles={styles.inputLabel} fontSize={20}
+			                            onChangeText={(value) => {
+			                                this.setState({ oldPassword: value })
+			                                this.setState({ errPassword: false })
+			                            }}
+			                        />
+			                        {this.state.errPassword && <Text p color='red'>password is not correct</Text>}
+			                        <Input
+			                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="New Password" password
+			                            labelStyles={styles.inputLabel} fontSize={20}
+			                            onChangeText={(value) => {
+			                                this.setState({ newPassword: value })
+			                                this.setState({ errNewPassword: false })
+			                                this.setState({ errMatchPassword: false })
+			                            }}
+			                        />
+			                        {this.state.errNewPassword && <Text p color='red'>password is required</Text>}
+			                        {this.state.errMatchPassword && <Text p color='red'>password is not matched</Text>}
+			                        <Input
+			                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Confirm New Password" password
+			                            labelStyles={styles.inputLabel} fontSize={20}
+			                            onChangeText={(value) => {
+			                                this.setState({ newPasswordConfirm: value })
+			                                this.setState({ errMatchPassword: false })
+			                            }}
+			                        />
+			                        <Input
+			                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Email"
+			                            labelStyles={styles.inputLabel} fontSize={20} value={this.state.email}
+			                            onChangeText={(value) => this.setState({ email: value })}
+			                        />
+			                        {this.props.currentUser.role == Roles.ADMIN && <Input
+			                            style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Tax"
+			                            labelStyles={styles.inputLabel} fontSize={20} value={this.state.tax.toString()}
+			                            onChangeText={(value) => this.setState({ tax: value })}
+			                        />}
 
-                        <Block center>
-                            <Button
-                                onPress={() => this.save()}
-                                style={styles.button} round
-                                textStyle={{ fontFamily: nowTheme.FONT, fontSize: 31 }}
-                            >Save</Button>
-                        </Block>
-                    </ScrollView>
-                </SafeAreaView>
-                <Toast
-                    isShow={this.state.showErr}
-                    positionIndicator="top"
-                    color='warning'
-                    // textStyle={{ textAlign: 'center', fontSize: 18, color: 'red' }}
-                    round
-                >Save failed</Toast>
-            </KeyboardAvoidingView>
+			                        <Block center>
+			                            <Button
+			                                onPress={() => this.save()}
+			                                style={styles.button} round
+			                                textStyle={{ fontFamily: nowTheme.FONT, fontSize: 31 }}
+			                            >Save</Button>
+			                        </Block>
+			                    </ScrollView>
+			                        </KeyboardAvoidingView>
+			                </SafeAreaView>
+			                <Toast
+			                    isShow={this.state.showErr}
+			                    positionIndicator="top"
+			                    color='warning'
+			                    // textStyle={{ textAlign: 'center', fontSize: 18, color: 'red' }}
+			                    round
+			                >Save failed</Toast>
+			            </Block>
+	                </TouchableWithoutFeedback>
+	            </SafeAreaView>
+	        </KeyboardAvoidingView>
         );
     }
 };
@@ -295,7 +307,7 @@ const styles = StyleSheet.create({
         borderRadius: nowTheme.SIZES.RADIUS,
     },
     scrollContainer: {
-        height: height / 2,
+        height: height * 0.48,
         paddingHorizontal: theme.SIZES.BASE * 3,
         marginTop: theme.SIZES.BASE
     },
@@ -311,5 +323,9 @@ const styles = StyleSheet.create({
     },
     inputBox: {
         borderRadius: theme.SIZES.BORDER_RADIUS * 4,
+    },
+    inner: {
+        flex: 1,
+        justifyContent: "flex-end",
     },
 });

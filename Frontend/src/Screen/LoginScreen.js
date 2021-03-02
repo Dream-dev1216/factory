@@ -1,5 +1,8 @@
 import React from 'react';
-import { StyleSheet, Image, TouchableOpacity, Dimensions, KeyboardAvoidingView } from 'react-native';
+import {
+    StyleSheet, Image, TouchableOpacity, Dimensions, KeyboardAvoidingView, SafeAreaView,
+    Platform, TouchableWithoutFeedback, Keyboard
+} from 'react-native';
 import {
     Block,
     Button,
@@ -52,56 +55,67 @@ class TestLoginScreen extends React.Component {
     render() {
         return (
             <KeyboardAvoidingView
-                style={styles.containter}>
-                <Loader loading={this.state.loading} />
-                <Block
-                    style={styles.background} />
-                <Block center
-                    style={styles.logoBlock}>
-                    <Image
-                        style={styles.logoIcon} />
-                    <Text
-                        style={styles.label}
-                        size={20}
-                        style={{ position: 'absolute' }}> LOGO </Text>
-                </Block>
-                <Block
-                    style={styles.card}>
-                    <Text
-                        style={styles.label}
-                        size={20}> Name </Text>
-                    <Input
-                        style={styles.inputBox} color={nowTheme.COLORS.MAIN} fontSize={20}
-                        onChangeText={(name) => this.setState({ name: name, errText: false })}
-                    />
-                    <Text
-                        style={styles.label}
-                        size={20}> Password </Text>
-                    <Input
-                        style={styles.inputBox} password color={nowTheme.COLORS.MAIN} fontSize={20}
-                        onChangeText={(pwd) => this.setState({ password: pwd, errText: false })}
-                    />
-                    {this.state.errText && <Block center>
-                        <Text p color='red'>Invalid username or password.</Text>
-                    </Block>}
-                    <Block style={styles.divide} />
-                    <Block center>
-                        <Button
-                            style={styles.button}
-                            textStyle={{ fontFamily: nowTheme.FONT, fontSize: 31 }}
-                            onPress={() => this.login()}
-                        >Sign In</Button>
-                    </Block>
-                    <TouchableOpacity
-                        onPress={() => this.props.navigation.navigate('Register')}
-                    >
-                        <Text
-                            center
-                            style={styles.label}
-                            color={nowTheme.COLORS.MAIN}
-                            size={18} > Register </Text>
-                    </TouchableOpacity>
-                </Block>
+                behavior={Platform.OS === "ios" ? "padding" : null}
+                style={{ flex: 1 }}
+            >
+                <SafeAreaView style={{ flex: 1 }}>
+                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                        <Block style={styles.inner}>
+                            <Block
+                                style={styles.containter}>
+                                <Loader loading={this.state.loading} />
+                                <Block
+                                    style={styles.background} />
+                                <Block center
+                                    style={styles.logoBlock}>
+                                    <Image
+                                        style={styles.logoIcon} />
+                                    <Text
+                                        style={styles.label}
+                                        size={20}
+                                        style={{ position: 'absolute' }}> LOGO </Text>
+                                </Block>
+                                <Block
+                                    style={styles.card}>
+                                    <Text
+                                        style={styles.label}
+                                        size={20}> Name </Text>
+                                    <Input
+                                        style={styles.inputBox} color={nowTheme.COLORS.MAIN} fontSize={20}
+                                        onChangeText={(name) => this.setState({ name: name, errText: false })}
+                                    />
+                                    <Text
+                                        style={styles.label}
+                                        size={20}> Password </Text>
+                                    <Input
+                                        style={styles.inputBox} password color={nowTheme.COLORS.MAIN} fontSize={20}
+                                        onChangeText={(pwd) => this.setState({ password: pwd, errText: false })}
+                                    />
+                                    {this.state.errText && <Block center>
+                                        <Text p color='red'>Invalid username or password.</Text>
+                                    </Block>}
+                                    <Block style={styles.divide} />
+                                    <Block center>
+                                        <Button
+                                            style={styles.button}
+                                            textStyle={{ fontFamily: nowTheme.FONT, fontSize: 31 }}
+                                            onPress={() => this.login()}
+                                        >Sign In</Button>
+                                    </Block>
+                                    <TouchableOpacity
+                                        onPress={() => this.props.navigation.navigate('Register')}
+                                    >
+                                        <Text
+                                            center
+                                            style={styles.label}
+                                            color={nowTheme.COLORS.MAIN}
+                                            size={18} > Register </Text>
+                                    </TouchableOpacity>
+                                </Block>
+                            </Block>
+                        </Block>
+                    </TouchableWithoutFeedback>
+                </SafeAreaView>
             </KeyboardAvoidingView>
         );
     }
@@ -174,5 +188,9 @@ const styles = StyleSheet.create({
     logoBlock: {
         justifyContent: 'center',
         alignItems: 'center'
-    }
+    },
+    inner: {
+        flex: 1,
+        justifyContent: "flex-end",
+    },
 });
