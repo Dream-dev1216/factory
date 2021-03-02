@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity, Dimensions, KeyboardAvoidingView } from 'react-native';
 import {
     Block,
     Button,
@@ -51,7 +51,7 @@ class TestLoginScreen extends React.Component {
 
     render() {
         return (
-            <Block
+            <KeyboardAvoidingView
                 style={styles.containter}>
                 <Loader loading={this.state.loading} />
                 <Block
@@ -102,7 +102,7 @@ class TestLoginScreen extends React.Component {
                             size={18} > Register </Text>
                     </TouchableOpacity>
                 </Block>
-            </Block>
+            </KeyboardAvoidingView>
         );
     }
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Image, TouchableOpacity, Dimensions, ScrollView, SafeAreaView } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity, Dimensions, ScrollView, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 import {
     Block,
     Button,
@@ -125,7 +125,7 @@ class ProfileScreen extends React.Component {
 
     render() {
         return (
-            <Block>
+            <KeyboardAvoidingView>
                 <Loader loading={this.state.loading} />
                 <Header nologo title="Profile" navigation={this.props.navigation} />
                 <Block center>
@@ -233,7 +233,7 @@ class ProfileScreen extends React.Component {
                     // textStyle={{ textAlign: 'center', fontSize: 18, color: 'red' }}
                     round
                 >Save failed</Toast>
-            </Block>
+            </KeyboardAvoidingView>
         );
     }
 };

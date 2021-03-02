@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Image, TouchableOpacity, Dimensions, ScrollView, SafeAreaView } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity, Dimensions, ScrollView, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 import {
     Block,
     Button,
@@ -98,7 +98,7 @@ class RegisterScreen extends React.Component {
     }
     render() {
         return (
-            <Block>
+            <KeyboardAvoidingView>
                 <Header nologo noDrawer title="Register" />
                 <Block center style={styles.background}>
                     <TouchableOpacity
@@ -171,7 +171,7 @@ class RegisterScreen extends React.Component {
                         </Block>
                     </ScrollView>
                 </SafeAreaView>
-            </Block>
+            </KeyboardAvoidingView>
         );
     }
 };

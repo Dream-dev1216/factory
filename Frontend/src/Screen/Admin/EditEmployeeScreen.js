@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Image, TouchableOpacity, Dimensions, ScrollView, SafeAreaView } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity, Dimensions, ScrollView, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 import {
     Block,
     Button,
@@ -171,7 +171,7 @@ class EditEmployeeScreen extends React.Component {
     }
     render() {
         return (
-            <Block>
+            <KeyboardAvoidingView>
                 <Loader loading={this.state.loading} />
                 <Header nologo title={this.props.route.params.employer ? "Edit Employer" : "Add Employer"} navigation={this.props.navigation} />
                 <Block center style={styles.background}>
@@ -260,7 +260,7 @@ class EditEmployeeScreen extends React.Component {
                         </Block>
                     </ScrollView>
                 </SafeAreaView>
-            </Block>
+            </KeyboardAvoidingView>
         );
     }
 };
