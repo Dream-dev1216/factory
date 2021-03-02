@@ -42,7 +42,7 @@ class TestLoginScreen extends React.Component {
                         }
                     );
                 } else {
-                    this.setState({ errText: true })
+                    this.setState({ errText: true, loading: false })
                 }
             },
             (error) => alert(error)

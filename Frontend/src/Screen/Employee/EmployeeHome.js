@@ -59,7 +59,7 @@ class EmployeeHome extends React.Component {
         return d.getDate() + '/' + (parseInt(d.getMonth()) + 1) + '/' + d.getFullYear();
     }
 
-    reject = () => {
+    reject = (product) => {
         this.setState({ loading: true });
         this.props.updateProduct(
             product._id,
@@ -68,7 +68,7 @@ class EmployeeHome extends React.Component {
         );
     }
 
-    accept = () => {
+    accept = (product) => {
         this.setState({ loading: true });
         this.props.updateProduct(
             product._id,
@@ -77,7 +77,7 @@ class EmployeeHome extends React.Component {
         )
     }
 
-    done = () => {
+    done = (product) => {
         this.setState({ loading: true });
         this.props.updateProduct(
             product._id,
@@ -121,19 +121,19 @@ class EmployeeHome extends React.Component {
                         <Button
                             size='small' round
                             textStyle={{ fontFamily: nowTheme.FONT, fontSize: 20 }}
-                            onPress={() => this.reject()}
+                            onPress={() => this.reject(product)}
                         >Reject</Button>
                         <Button
                             size='small' color='success' round success
                             textStyle={{ fontFamily: nowTheme.FONT, fontSize: 20 }}
-                            onPress={() => this.accept()}
+                            onPress={() => this.accept(product)}
                         >Accept</Button>
                     </Block>}
                     {product.status == Status.ACCEPT && <Block row center>
                         <Button
                             size='small' color='success' round success
                             textStyle={{ fontFamily: nowTheme.FONT, fontSize: 20 }}
-                            onPress={() => this.done()}
+                            onPress={() => this.done(product)}
                         >DONE</Button>
                         <Text h6 bold style={{ padding: 4 }}>Under Processing...</Text>
                     </Block>}
