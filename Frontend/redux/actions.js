@@ -335,7 +335,7 @@ export function ClearNotification(dispatch, receiver, sender, successcb) {
 }
 /****************************************************************************/
 /***************************** Chats ****************************************/
-export function GetMessages(dispatch, sender, receiver) {
+export function GetMessages(dispatch, sender, receiver, successcb) {
     Client.get(`chats/${sender}/${receiver}`)
         .then(async res => {
             if (res.status == 200) {
@@ -343,6 +343,7 @@ export function GetMessages(dispatch, sender, receiver) {
                     type: "SET_MESSAGES",
                     payload: res.data
                 });
+                if(successcb) successcb();
             }
         })
         .catch(error => {

@@ -19,19 +19,6 @@ class ChatScreen extends React.Component {
     constructor(props) {
         super(props)
     }
-    componentDidMount() {
-        this.props.getMessages(
-            this.props.currentUser.id,
-            this.props.route.params.id
-        );
-    }
-
-    componentDidUpdate() {
-        // this.props.updateNotification(this.props.route.params.id, this.props.currentUser.id)
-        //     .then(() => {
-        //         this.props.changeNotifications({ sender, receiver, count: 0 });
-        //     })
-    }
 
     // helper method that is sends a message
     handleSend(newMessage = []) {
@@ -87,6 +74,7 @@ class ChatScreen extends React.Component {
                 alwaysShowSend
                 scrollToBottom
                 renderLoading={this.renderLoading}
+                alignTop={true}
             />
             // </SafeAreaView>
         );
@@ -101,7 +89,6 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        getMessages: (sender, receiver) => GetMessages(dispatch, sender, receiver),
         sendMessage: (sender, receiver, newMessage, client) => SendMessage(dispatch, sender, receiver, newMessage, client),
     };
 }

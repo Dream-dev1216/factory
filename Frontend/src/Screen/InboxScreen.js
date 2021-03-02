@@ -11,7 +11,7 @@ const { width, height } = Dimensions.get('screen');
 // connect to Redux state
 import { connect } from "react-redux";
 import { Images, nowTheme } from '../../constants';
-import { GetNotifications, ClearNotification, SetTotalNotify } from "../../redux/actions";
+import { GetNotifications, ClearNotification, SetTotalNotify, GetMessages } from "../../redux/actions";
 import { apiConfig } from '../../redux/config'
 import Loader from '../Components/Loader';
 import Header from '../Components/Header'
@@ -32,15 +32,32 @@ class InboxScreen extends React.Component {
     }
 
     selectUser = (sender) => {
+        this.setState({ loading: true })
         if (sender.count > 0) {
             this.props.setTotalNotify( this.props.totalNotify - sender.count );
             this.props.clearNotification(
                 this.props.currentUser.id,
                 sender.id,
-                () => this.props.navigation.navigate('Chat', { title: sender.name, thumbnail: sender.thumbnail, id: sender.id, back: true })
+                () => {
+                    this.props.getMessages(
+                        this.props.currentUser.id,
+                        sender.id,
+                        () => {
+                            this.setState({ loading: false })
+                            this.props.navigation.navigate('Chat', { title: sender.name, thumbnail: sender.thumbnail, id: sender.id, back: true })
+                        }
+                    );
+                }
             );
         } else {
-            this.props.navigation.navigate('Chat', { title: sender.name, thumbnail: sender.thumbnail, id: sender.id, back: true });
+            this.props.getMessages(
+                this.props.currentUser.id,
+                sender.id,
+                () => {
+                    this.setState({ loading: false })
+                    this.props.navigation.navigate('Chat', { title: sender.name, thumbnail: sender.thumbnail, id: sender.id, back: true })
+                }
+            );
         }
     }
 
@@ -92,6 +109,7 @@ function mapDispatchToProps(dispatch) {
         getNotifications: (userId, successcb) => GetNotifications(dispatch, userId, successcb),
         clearNotification: (receiver, sender, successcb) => ClearNotification(dispatch, receiver, sender, successcb),
         setTotalNotify: (totalNotify) => SetTotalNotify(dispatch, totalNotify),
+        getMessages: (sender, receiver, successcb) => GetMessages(dispatch, sender, receiver, successcb),
     };
 }
 export default connect(
