@@ -1,6 +1,8 @@
 import React from 'react';
-import { StyleSheet, Image, TouchableOpacity, Dimensions, ScrollView, SafeAreaView, KeyboardAvoidingView,
-    Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import {
+    StyleSheet, Image, TouchableOpacity, Dimensions, ScrollView, SafeAreaView, KeyboardAvoidingView,
+    Platform, TouchableWithoutFeedback, Keyboard
+} from 'react-native';
 import {
     Block,
     Button,
@@ -36,13 +38,13 @@ class RegisterScreen extends React.Component {
     createFormData = (photo, body, timeVal) => {
         const data = new FormData();
 
-        if(photo)
-        data.append("photo", {
-            name: timeVal + '-' + photo.fileName,
-            type: photo.type,
-            uri:
-                Platform.OS === "android" ? photo.uri : photo.uri.replace("file://", "")
-        });
+        if (photo)
+            data.append("photo", {
+                name: timeVal + '-' + photo.fileName,
+                type: photo.type,
+                uri:
+                    Platform.OS === "android" ? photo.uri : photo.uri.replace("file://", "")
+            });
 
         Object.keys(body).forEach(key => {
             data.append(key, body[key]);
@@ -89,7 +91,7 @@ class RegisterScreen extends React.Component {
                     newPassword: this.state.newPassword,
                     email: this.state.email,
                     thumbnail: this.state.photo ? timeVal + '-' + this.state.photo.fileName : '',
-                    role:Roles.EMPLOYEE
+                    role: Roles.EMPLOYEE
                 }, timeVal), true, () => {
                     // if (successcb) successcb();
                     console.log("register sucess")
@@ -103,26 +105,25 @@ class RegisterScreen extends React.Component {
                 behavior={Platform.OS === "ios" ? "padding" : null}
                 style={{ flex: 1 }}
             >
-                <SafeAreaView style={{flex:1}}>
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                        <Block style={styles.inner}>
-                            <Header nologo noDrawer title="Register" />
+                <SafeAreaView style={{ flex: 1 }}>
+                    <Block style={styles.inner}>
+                        <Header nologo noDrawer title="Register" />
+                        <ScrollView
+                            showsVerticalScrollIndicator={false}
+                        >
                             <Block center style={styles.background}>
                                 <TouchableOpacity
                                     onPress={() => this.handleChoosePhoto()}
                                 >
                                     <Block style={{ borderWidth: 1, borderRadius: nowTheme.SIZES.RADIUS }}>
                                         <Image
-                                            source={this.state.photo ? {uri:this.state.photo.uri} : Images.Avatar}
+                                            source={this.state.photo ? { uri: this.state.photo.uri } : Images.Avatar}
                                             style={styles.Avatar}
                                         />
                                     </Block>
                                 </TouchableOpacity>
                             </Block>
-                            <ScrollView
-                            style={styles.scrollContainer}
-                            showsVerticalScrollIndicator={false}
-                            >
+                            <Block style={styles.controlContainer}>
                                 <Input
                                     style={styles.inputBox} color={nowTheme.COLORS.MAIN} label="Name *"
                                     labelStyles={styles.inputLabel} fontSize={20}
@@ -175,9 +176,9 @@ class RegisterScreen extends React.Component {
                                         textStyle={{ fontFamily: nowTheme.FONT, fontSize: 31 }}
                                     >Register</Button>
                                 </Block>
-                            </ScrollView>
-                        </Block>
-                    </TouchableWithoutFeedback>
+                            </Block>
+                        </ScrollView>
+                    </Block>
                 </SafeAreaView>
             </KeyboardAvoidingView>
         );
@@ -238,11 +239,6 @@ const styles = StyleSheet.create({
         resizeMode: 'stretch',
         borderRadius: nowTheme.SIZES.RADIUS,
     },
-    scrollContainer: {
-        height: height * 2 / 3,
-        paddingHorizontal: theme.SIZES.BASE * 3,
-        marginTop: theme.SIZES.BASE
-    },
     button: {
         backgroundColor: nowTheme.COLORS.MAIN,
         borderColor: theme.COLORS.BLACK,
@@ -260,4 +256,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "flex-end",
     },
+    controlContainer: {
+        paddingHorizontal: theme.SIZES.BASE * 3,
+    }
 });
