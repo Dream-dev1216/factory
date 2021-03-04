@@ -58,7 +58,10 @@ class HoldScreen extends React.Component {
     }
 
     deleteProduct = (id) => {
-        this.props.deleteProduct(id);
+        this.setState({ loading: true });
+        this.props.deleteProduct(id,
+            () => this.setState({ loading: false })
+        );
     }
 
     renderProducts = () => {
@@ -196,7 +199,7 @@ function mapDispatchToProps(dispatch) {
         getProducts: (successcb) => GetProducts(dispatch, successcb),
         getEmployers: (successcb) => GetEmployers(dispatch, successcb),
         updateProduct: (id, req, successcb) => UpdateProduct(dispatch, id, req, successcb),
-        deleteProduct: (id) => DeleteProduct(dispatch, id),
+        deleteProduct: (id, successcb) => DeleteProduct(dispatch, id, successcb),
     };
 }
 export default connect(

@@ -261,7 +261,7 @@ export function UpdateProduct(dispatch, id, req, successcb) {
             if (errorcb) errorcb();
         });
 }
-export function DeleteProduct(dispatch, id) {
+export function DeleteProduct(dispatch, id, successcb) {
     Client.post(`products/delete/${id}`)
         .then(async res => {
             if (res.status == 200) {
@@ -270,6 +270,7 @@ export function DeleteProduct(dispatch, id) {
                     type: "SET_PRODUCTS",
                     payload: res.data
                 });
+                if(successcb) successcb();
             }
         })
         .catch(error => {
