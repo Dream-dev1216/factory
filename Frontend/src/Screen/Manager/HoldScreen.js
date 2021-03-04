@@ -48,6 +48,7 @@ class HoldScreen extends React.Component {
         if (this.state.id) {
             if (this.state.employer == '') {
                 this.setState({ loading: false, errEmp: true });
+                return;
             }
             this.props.updateProduct(
                 this.state.id,

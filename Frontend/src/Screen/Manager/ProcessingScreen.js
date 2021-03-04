@@ -32,7 +32,7 @@ class ProcessingScreen extends React.Component {
 
     renderProducts = () => {
         return this.props.products
-            .filter(product => product.status == Status.PROCESS)
+            .filter(product => product.status == Status.PROCESS || product.status == Status.ACCEPT)
             .map((product) =>
                 <Block style={{ marginVertical: theme.SIZES.BASE }} key={product._id}>
                     <Block row center>
@@ -62,6 +62,7 @@ class ProcessingScreen extends React.Component {
                         </Block>
                     </Block>
                     <Block row center>
+                        {product.status == Status.ACCEPT && <Text p bold>✔️</Text>}
                         <Text h6 bold style={{ padding: theme.SIZES.BASE }}>Under Processing...</Text>
                         <Text h6 bold style={{ padding: theme.SIZES.BASE }}>By {product.employer}</Text>
                     </Block>
