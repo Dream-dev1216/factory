@@ -26,6 +26,7 @@ class HoldScreen extends React.Component {
             employers: [],
             employer: '',
             loading: true,
+            errEmp: false,
         }
     }
 
@@ -43,17 +44,24 @@ class HoldScreen extends React.Component {
     }
 
     process = () => {
-        this.setState({ visibleModal: false });
+        this.setState({ loading: true });
         if (this.state.id) {
+            if (this.state.employer == '') {
+                this.setState({ loading: false, errEmp: true });
+            }
             this.props.updateProduct(
                 this.state.id,
                 {
                     status: Status.PROCESS,
                     employer: this.state.employer
+                },
+                () => {
+                    this.setState({ loading: false, visibleModal: false });
                 }
             )
         } else {
-            console.log("invalid product selected.");
+            this.setState({ loading: false, visibleModal: false });
+            alert("invalid product selected.");
         }
     }
 
@@ -180,8 +188,11 @@ class HoldScreen extends React.Component {
                             labelFontSize={16}
                             fontSize={20}
                             data={employees}
-                            onChangeText={(value) => this.setState({ employer: value })}
+                            onChangeText={(value) => this.setState({ employer: value, errEmp: false })}
                         />
+                        {this.state.errEmp && <Text color='red'>
+                            Select Employer.
+                        </Text>}
                     </ModalContent>
                 </Modal>
             </Block>
