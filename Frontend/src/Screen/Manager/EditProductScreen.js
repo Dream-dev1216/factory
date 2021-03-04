@@ -18,7 +18,7 @@ const { width, height } = Dimensions.get('screen');
 // connect to Redux state
 import { connect } from "react-redux";
 import { Images, nowTheme, Status } from '../../../constants';
-import { GetNewBill, GetCustomers, SaveProduct } from "../../../redux/actions";
+import { GetNewBill, GetCustomers, SaveProduct, GetProducts } from "../../../redux/actions";
 import Loader from '../../Components/Loader';
 import Header from '../../Components/Header'
 import { apiConfig } from '../../../redux/config'
@@ -59,6 +59,7 @@ class EditProductScreen extends React.Component {
         );
     }
     componentDidUpdate = (previousProps, previousState) => {
+       
         if (this.props.route.params.product
             && previousState.id !== this.props.route.params.product._id) {
             var product = this.props.route.params.product;
@@ -79,7 +80,7 @@ class EditProductScreen extends React.Component {
                 }
             )
         } else if (this.props.route.params.product == null
-            && previousState.id != '') {
+            && previousProps != this.props) {
             this.setState({
                 id: '',
                 bill: this.props.newBill,
@@ -158,8 +159,12 @@ class EditProductScreen extends React.Component {
     goToHoldScreen = () => {
         this.props.getNewBill(
             () => {
-                this.setState({ loading: false });
-                this.props.navigation.navigate('Hold');
+                this.props.getProducts(
+                    () =>{
+                        this.setState({ loading: false });
+                        this.props.navigation.navigate('Hold');
+                    }
+                );
             }
         );
         console.log("save product successfully.");
@@ -327,6 +332,7 @@ function mapDispatchToProps(dispatch) {
         getNewBill: (successcb) => GetNewBill(dispatch, successcb),
         getCustomers: (successcb) => GetCustomers(dispatch, successcb),
         saveProduct: (id, product, successcb) => SaveProduct(id, product, successcb),
+        getProducts: (successcb) => GetProducts(dispatch, successcb),
     };
 }
 export default connect(
